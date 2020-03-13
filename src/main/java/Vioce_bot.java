@@ -1,5 +1,7 @@
 import org.telegram.telegrambots.ApiContextInitializer;
+import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.ApiContext;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -20,12 +22,21 @@ public class Vioce_bot extends TelegramLongPollingBot {
     static String BotToken, BotUsername, startMsg, voteMsg, wrongFormatMsg, wrongNumberMsg, statusMsg, revoteMsg;
     static String ruVarsMsg, ruVoteMsg, ruRevoteMsg, ruWrongNumberMsg, ruWrongFormatMsg, ruStartMsg, ruDoubleVoteMsg;
 
+    public Vioce_bot(DefaultBotOptions botOptions)
+    {
+        super(botOptions);
+    }
+
     public static void main(String[] args) {
         settings();
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
-            telegramBotsApi.registerBot(new Vioce_bot());
+            DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
+            botOptions.setProxyHost("96.113.166.133");
+            botOptions.setProxyPort(1080);
+            botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
+            telegramBotsApi.registerBot(new Vioce_bot(botOptions));
         } catch (TelegramApiException e) {
             logger.error("ERROR TELEGRAM BOT TOKEN: " + e);
             System.exit(0);
@@ -103,14 +114,14 @@ public class Vioce_bot extends TelegramLongPollingBot {
 
     public void newVote(Message message) {
         try {
-            if (phone.containsKey(message.getFrom().getUserName())) {     // message.getText().contains("1") &&
+            if (!phone.containsKey(message.getFrom().getUserName())) {     // message.getText().contains("1") &&
                 if (!(Integer.parseInt(message.getText()) > playerName.size())) {
-                    if (phone.get(message.getFrom().getUserName()) == 0) {
+                    if (phone.get(message.getFrom().getUserName()) == null) {
                         addVote(Integer.parseInt(message.getText()));
                         sndMsg(message, String.format(voteMsg, getNameById(Integer.parseInt(message.getText())))); // "You voted for the player " + message.getText()
                         phone.put(message.getFrom().getUserName(), Integer.parseInt(message.getText()));
                         logger.info(String.format("A voice was given to the var %s from the user %s", message.getText(), message.getFrom().getUserName()));
-                    } else if (phone.get(message.getFrom().getUserName()) != 0) {
+                    } else if (phone.get(message.getFrom().getUserName()) != null) {
                         removeVote(phone.get(message.getFrom().getUserName()));
                         addVote(Integer.parseInt(message.getText()));
                         updateStatus();
@@ -139,14 +150,14 @@ public class Vioce_bot extends TelegramLongPollingBot {
 
     public void newVoteRu(Message message) {
         try {
-            if (phone.containsKey(message.getFrom().getUserName())) {     // message.getText().contains("1") &&
+            if (!phone.containsKey(message.getFrom().getUserName())) {     // message.getText().contains("1") &&
                 if (!(Integer.parseInt(message.getText()) > playerName.size())) {
-                    if (phone.get(message.getFrom().getUserName()) == 0) {
+                    if (phone.get(message.getFrom().getUserName()) == null) {
                         addVote(Integer.parseInt(message.getText()));
                         sndMsg(message, String.format(ruVoteMsg, getNameById(Integer.parseInt(message.getText())))); // "You voted for the player " + message.getText()
                         phone.put(message.getFrom().getUserName(), Integer.parseInt(message.getText()));
                         logger.info(String.format("A voice was given to the %s from the user %s", message.getText(), message.getFrom().getUserName()));
-                    } else if (phone.get(message.getFrom().getUserName()) != 0) {
+                    } else if (phone.get(message.getFrom().getUserName()) != null) {
                         removeVote(phone.get(message.getFrom().getUserName()));
                         addVote(Integer.parseInt(message.getText()));
                         updateStatus();
