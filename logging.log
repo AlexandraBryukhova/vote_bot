@@ -11,3 +11,4 @@
 [2020-03-13 18:59:39][ERROR] FILE NOT FOUND EXCEPTION: java.io.FileNotFoundException: config.properties (Не удается найти указанный файл)
 [2020-03-13 19:06:40][ERROR] ERROR TELEGRAM BOT TOKEN: org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook
 [2020-03-13 20:07:17][ERROR] ERROR TELEGRAM BOT TOKEN: org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook
+[2020-03-13 20:14:40][ERROR] ERROR TELEGRAM BOT TOKEN: org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook
