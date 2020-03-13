@@ -146,9 +146,6 @@ public class Vioce_bot extends TelegramLongPollingBot {
                         sndMsg(message, String.format(ruVoteMsg, getNameById(Integer.parseInt(message.getText())))); // "You voted for the player " + message.getText()
                         phone.put(message.getFrom().getUserName(), Integer.parseInt(message.getText()));
                         logger.info(String.format("A voice was given to the %s from the user %s", message.getText(), message.getFrom().getUserName()));
-                    } else if(phone.get(message.getFrom().getUserName()) == 1) {
-                        sndMsg(message, String.format(ruDoubleVoteMsg, getNameById(Integer.parseInt(message.getText())))); // "You voted again!! " + message.getText()
-                        logger.info(String.format("You can't vote twice!", message.getText(), message.getFrom().getUserName()));
                     } else if (phone.get(message.getFrom().getUserName()) != 0) {
                         removeVote(phone.get(message.getFrom().getUserName()));
                         addVote(Integer.parseInt(message.getText()));
