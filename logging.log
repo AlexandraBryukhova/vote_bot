@@ -14,3 +14,11 @@
 [2020-03-13 20:14:40][ERROR] ERROR TELEGRAM BOT TOKEN: org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook
 [2020-03-13 21:39:18][ERROR] ERROR TELEGRAM BOT TOKEN: org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook
 [2020-03-13 21:40:17][ERROR] ERROR TELEGRAM BOT TOKEN: org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook
+[2020-03-13 22:09:20][INFO] BOT WORKING
+[2020-03-13 22:11:43][INFO] I/O exception (java.net.SocketException) caught when processing request to {s}->https://api.telegram.org:443: Connection refused: connect
+[2020-03-13 22:11:43][INFO] Retrying request to {s}->https://api.telegram.org:443
+[2020-03-13 22:11:45][INFO] I/O exception (java.net.SocketException) caught when processing request to {s}->https://api.telegram.org:443: Connection refused: connect
+[2020-03-13 22:11:45][INFO] Retrying request to {s}->https://api.telegram.org:443
+[2020-03-13 22:11:47][INFO] I/O exception (java.net.SocketException) caught when processing request to {s}->https://api.telegram.org:443: Connection refused: connect
+[2020-03-13 22:11:47][INFO] Retrying request to {s}->https://api.telegram.org:443
+[2020-03-13 22:11:49][ERROR] ERROR TELEGRAM BOT TOKEN: org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException: Error removing old webhook

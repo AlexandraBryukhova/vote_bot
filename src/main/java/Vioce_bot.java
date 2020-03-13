@@ -33,8 +33,8 @@ public class Vioce_bot extends TelegramLongPollingBot {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             DefaultBotOptions botOptions = ApiContext.getInstance(DefaultBotOptions.class);
-            botOptions.setProxyHost("96.113.166.133");
-            botOptions.setProxyPort(1080);
+            botOptions.setProxyHost("127.0.0.1");
+            botOptions.setProxyPort(9150);
             botOptions.setProxyType(DefaultBotOptions.ProxyType.SOCKS5);
             telegramBotsApi.registerBot(new Vioce_bot(botOptions));
         } catch (TelegramApiException e) {
