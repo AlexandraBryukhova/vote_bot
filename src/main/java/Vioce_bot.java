@@ -17,8 +17,8 @@ public class Vioce_bot extends TelegramLongPollingBot {
     static Map<Integer, Integer> playerVotes = new HashMap<>(); // ID / Votes
     static Map<String, Integer> phone = new HashMap<>(); // Voter Name / ID for voted
     static final Logger logger = Logger.getLogger(Vioce_bot.class);
-    static String BotToken, BotUsername, varsMsg, startMsg, voteMsg, nRegisterMsg, wrongFormatMsg, wrongNumberMsg, statusMsg, revoteMsg;
-    static String ruVarsMsg, ruVoteMsg, ruRevoteMsg, ruWrongNumberMsg, runRegisterMsg, ruWrongFormatMsg, ruStartMsg;
+    static String BotToken, BotUsername, startMsg, voteMsg, nRegisterMsg, wrongFormatMsg, wrongNumberMsg, statusMsg, revoteMsg, DoubleVoteMsg;
+    static String ruVarsMsg, ruVoteMsg, ruRevoteMsg, ruWrongNumberMsg, runRegisterMsg, ruWrongFormatMsg, ruStartMsg, ruDoubleVoteMsg;
 
     public static void main(String[] args) {
         settings();
@@ -39,10 +39,12 @@ public class Vioce_bot extends TelegramLongPollingBot {
             if (message.getText().equals("/start") && message.getFrom().getLanguageCode().equals("ru")) {
                 sndMsg(message, ruStartMsg);
                 logger.info("Posted /start message");
+                sndMsg(message, ruVarsMsg);
             }
             else if (message.getText().equals("/start")) {
                 sndMsg(message, startMsg);
                 logger.info("Posted /start message");
+                sndMsg(message, ruVarsMsg);
             }
             else if (message.getFrom().getLanguageCode().equals("ru")) {
                 newVoteRu(message);
@@ -102,6 +104,7 @@ public class Vioce_bot extends TelegramLongPollingBot {
         ruWrongFormatMsg = properties.getProperty("RuWrongFormatMessage", "Вы ввели неверный формат.");
         ruWrongNumberMsg = properties.getProperty("RuWrongNumberMessage", "Вы ввели неверное число.");
         ruRevoteMsg = properties.getProperty("RuReVoteMessage", "Вы изменили свой голос на %s");
+        ruDoubleVoteMsg = properties.getProperty("RuDobVoteMessage", "Нельзя голосовать дважды");
 
         for (int i = 1; i < playerName.size() + 1; i++) {
             playerVotes.put(i, 0);
@@ -114,10 +117,12 @@ public class Vioce_bot extends TelegramLongPollingBot {
                 if (!(Integer.parseInt(message.getText()) > playerName.size())) {
                     if (phone.get(message.getFrom().getUserName()) == 0) {
                         addVote(Integer.parseInt(message.getText()));
-                        updateStatus();
                         sndMsg(message, String.format(voteMsg, getNameById(Integer.parseInt(message.getText())))); // "You voted for the player " + message.getText()
                         phone.put(message.getFrom().getUserName(), Integer.parseInt(message.getText()));
                         logger.info(String.format("A voice was given to the var %s from the user %s", message.getText(), message.getFrom().getUserName()));
+                    } else if(phone.get(message.getFrom().getUserName()) == 1) {
+                        sndMsg(message, String.format(ruDoubleVoteMsg, getNameById(Integer.parseInt(message.getText())))); // "You voted again!! " + message.getText()
+                        logger.info(String.format("You can't vote twice!", message.getText(), message.getFrom().getUserName()));
                     } else if (phone.get(message.getFrom().getUserName()) != 0) {
                         removeVote(phone.get(message.getFrom().getUserName()));
                         addVote(Integer.parseInt(message.getText()));
@@ -150,10 +155,12 @@ public class Vioce_bot extends TelegramLongPollingBot {
                 if (!(Integer.parseInt(message.getText()) > playerName.size())) {
                     if (phone.get(message.getFrom().getUserName()) == 0) {
                         addVote(Integer.parseInt(message.getText()));
-                        updateStatus();
                         sndMsg(message, String.format(ruVoteMsg, getNameById(Integer.parseInt(message.getText())))); // "You voted for the player " + message.getText()
                         phone.put(message.getFrom().getUserName(), Integer.parseInt(message.getText()));
                         logger.info(String.format("A voice was given to the %s from the user %s", message.getText(), message.getFrom().getUserName()));
+                    } else if(phone.get(message.getFrom().getUserName()) == 1) {
+                        sndMsg(message, String.format(ruDoubleVoteMsg, getNameById(Integer.parseInt(message.getText())))); // "You voted again!! " + message.getText()
+                        logger.info(String.format("You can't vote twice!", message.getText(), message.getFrom().getUserName()));
                     } else if (phone.get(message.getFrom().getUserName()) != 0) {
                         removeVote(phone.get(message.getFrom().getUserName()));
                         addVote(Integer.parseInt(message.getText()));
