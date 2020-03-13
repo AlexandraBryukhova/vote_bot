@@ -17,8 +17,8 @@ public class Vioce_bot extends TelegramLongPollingBot {
     static Map<Integer, Integer> playerVotes = new HashMap<>(); // ID / Votes
     static Map<String, Integer> phone = new HashMap<>(); // Voter Name / ID for voted
     static final Logger logger = Logger.getLogger(Vioce_bot.class);
-    static String BotToken, BotUsername, startMsg, voteMsg, nRegisterMsg, wrongFormatMsg, wrongNumberMsg, statusMsg, revoteMsg, DoubleVoteMsg;
-    static String ruVarsMsg, ruVoteMsg, ruRevoteMsg, ruWrongNumberMsg, runRegisterMsg, ruWrongFormatMsg, ruStartMsg, ruDoubleVoteMsg;
+    static String BotToken, BotUsername, startMsg, voteMsg, wrongFormatMsg, wrongNumberMsg, statusMsg, revoteMsg;
+    static String ruVarsMsg, ruVoteMsg, ruRevoteMsg, ruWrongNumberMsg, ruWrongFormatMsg, ruStartMsg, ruDoubleVoteMsg;
 
     public static void main(String[] args) {
         settings();
@@ -88,19 +88,9 @@ public class Vioce_bot extends TelegramLongPollingBot {
         }
         playerName.put(id, players);
 
-
-        // ADDING USERS
-        String users = properties.getProperty("allUsers");
-        while (users.contains(",")) {
-            phone.put(users.substring(0, users.indexOf(",")), 0);
-            users = users.substring(users.indexOf(", ") + 1);
-        }
-        phone.put(users, 0);
-
         ruVarsMsg = properties.getProperty("RuVoteMessage", "Список вариантов: 1 = var1, 2 = var2, 3 = var3, 4 = var4, 5 = var5, 6 = var6");
         ruStartMsg = properties.getProperty("RuStartMessage", "Привет! Я бот голосования! Напиши номер за который хочешь проголосовать.");
         ruVoteMsg = properties.getProperty("RuVoteMessage", "Вы проголосовали за %s");
-        runRegisterMsg = properties.getProperty("RuNotRegisteredMessage", "Вы не зарегестрированы в голосовании!");
         ruWrongFormatMsg = properties.getProperty("RuWrongFormatMessage", "Вы ввели неверный формат.");
         ruWrongNumberMsg = properties.getProperty("RuWrongNumberMessage", "Вы ввели неверное число.");
         ruRevoteMsg = properties.getProperty("RuReVoteMessage", "Вы изменили свой голос на %s");
@@ -136,9 +126,6 @@ public class Vioce_bot extends TelegramLongPollingBot {
                     logger.info(String.format("%s enter wrong number", message.getFrom().getUserName()));
                     sndMsg(message, wrongNumberMsg);
                 }
-            } else {
-                logger.info(String.format("Unknown user found: %s", message.getFrom().getUserName()));
-                sndMsg(message, nRegisterMsg);
             }
         } catch (NumberFormatException e) {
             logger.info(String.format("%s enter invalid format", message.getFrom().getUserName()));
@@ -174,9 +161,6 @@ public class Vioce_bot extends TelegramLongPollingBot {
                     logger.info(String.format("%s enter wrong number", message.getFrom().getUserName()));
                     sndMsg(message, ruWrongFormatMsg);
                 }
-            } else {
-                logger.info(String.format("Unknown user found: %s", message.getFrom().getUserName()));
-                sndMsg(message, runRegisterMsg);
             }
         } catch (NumberFormatException e) {
             logger.info(String.format("%s enter invalid format", message.getFrom().getUserName()));
