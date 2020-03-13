@@ -17,8 +17,8 @@ public class Vioce_bot extends TelegramLongPollingBot {
     static Map<Integer, Integer> playerVotes = new HashMap<>(); // ID / Votes
     static Map<String, Integer> phone = new HashMap<>(); // Voter Name / ID for voted
     static final Logger logger = Logger.getLogger(Vioce_bot.class);
-    static String BotToken, BotUsername, startMsg, voteMsg, nRegisterMsg, wrongFormatMsg, wrongNumberMsg, statusMsg, revoteMsg;
-    static String ruVoteMsg, ruRevoteMsg, ruWrongNumberMsg, runRegisterMsg, ruWrongFormatMsg, ruStartMsg;
+    static String BotToken, BotUsername, varsMsg, startMsg, voteMsg, nRegisterMsg, wrongFormatMsg, wrongNumberMsg, statusMsg, revoteMsg;
+    static String ruVarsMsg, ruVoteMsg, ruRevoteMsg, ruWrongNumberMsg, runRegisterMsg, ruWrongFormatMsg, ruStartMsg;
 
     public static void main(String[] args) {
         settings();
@@ -65,7 +65,7 @@ public class Vioce_bot extends TelegramLongPollingBot {
         Properties properties = new Properties();
         FileInputStream in = null;
         try {
-            in = new FileInputStream("config.properties");
+            in = new FileInputStream("src/main/resources/config.properties");
             properties.load(in);
         } catch (FileNotFoundException e) {
             logger.error("FILE NOT FOUND EXCEPTION: " + e);
@@ -86,6 +86,7 @@ public class Vioce_bot extends TelegramLongPollingBot {
         }
         playerName.put(id, players);
 
+
         // ADDING USERS
         String users = properties.getProperty("allUsers");
         while (users.contains(",")) {
@@ -94,6 +95,7 @@ public class Vioce_bot extends TelegramLongPollingBot {
         }
         phone.put(users, 0);
 
+        ruVarsMsg = properties.getProperty("RuVoteMessage", "Список вариантов: 1 = var1, 2 = var2, 3 = var3, 4 = var4, 5 = var5, 6 = var6");
         ruStartMsg = properties.getProperty("RuStartMessage", "Привет! Я бот голосования! Напиши номер за который хочешь проголосовать.");
         ruVoteMsg = properties.getProperty("RuVoteMessage", "Вы проголосовали за %s");
         runRegisterMsg = properties.getProperty("RuNotRegisteredMessage", "Вы не зарегестрированы в голосовании!");
